@@ -1,26 +1,36 @@
 class Solution {
     public String smallestPalindrome(String s) {
-        int[] freq = new int[26];
-
-        for (char c : s.toCharArray()) {
-            freq[c - 'a']++;
+        int[] count = new int[26];
+        
+        // Step 1: Count frequency of each character
+        for (int i = 0; i < s.length(); i++) {
+            count[s.charAt(i) - 'a']++;
         }
-
-        StringBuilder left = new StringBuilder();
-        String mid = "";
-
+        
+        StringBuilder half = new StringBuilder();
+        String middle = "";
+        
+        // Step 2: Build the first half lexicographically & identify middle char
         for (int i = 0; i < 26; i++) {
-            for (int j = 0; j < freq[i] / 2; j++) {
-                left.append((char)('a' + i));
-            }
-
-            if (freq[i] % 2 == 1) {
-                mid = String.valueOf((char)('a' + i));
+            if (count[i] > 0) {
+                char ch = (char) ('a' + i);
+                
+                // If frequency is odd, save this character as the middle element
+                if (count[i] % 2 != 0) {
+                    middle = String.valueOf(ch);
+                }
+                
+                // Append count / 2 characters to the first half
+                for (int j = 0; j < count[i] / 2; j++) {
+                    half.append(ch);
+                }
             }
         }
-
-        StringBuilder right = new StringBuilder(left).reverse();
-
-        return left.toString() + mid + right.toString();
+        
+        // Step 3: Combine first half + middle + reversed first half
+        String firstHalf = half.toString();
+        String secondHalf = half.reverse().toString();
+        
+        return firstHalf + middle + secondHalf;
     }
 }
