@@ -1,3 +1,5 @@
+import java.util.*;
+
 class Solution {
     public int twoCitySchedCost(int[][] costs) {
         int ans = 0;
